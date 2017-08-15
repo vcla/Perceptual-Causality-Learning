@@ -1,0 +1,54 @@
+IN PROGRESS: 
+* `all_outputs_together` doesn't handle dependencies in action.  extend it so 
+    it does.  can make stored_h/f as large as to accomodate the dependent sets.  
+    will require computation of indices.
+* add new experiments (elevator, collaboration, book)
+* add reasoning experiment
+* add simulation experiment (simulate vending machine)
+* door example -- check on A12 (walk by) in the .oni file.  why is there such a big connection?  maybe always happens 
+* double check hierarchical action by hand.
+* hierarchical door (deps, lock): why action 8 not selected for closes door?
+* code has problem...  when using deps of size 1 in multpile fluent example, the light does not return the correct 3rd fluent
+    %accumulate_output = pursuit(dat,true,true,true,(2:12)');
+* reannotate multiple fluent example -- frames out of order (rows 155:163): 
+       dat(x,1)      sort(dat(x,1))
+        4655            4654
+        4692            4655    
+        4720            4674
+        4731            4692
+        4740            4720
+        4795            4731
+        4849            4740
+        4654            4795
+        4674            4849
+
+
+
+`Perfect_Exp1_Key.m`
+File reads what should have been the perfect output from Experiment 1, 
+with the key door.  Then adds two interactions.  The dat variable is so 
+that each row is an example.  From there, we calculate information gain of 
+adding conditionals, and of adding joint.  Adding conditionals starts with 
+P(F), and extends to P(F,A) by P(F)P(F|A).  Maybe that's not right...  
+Maybe should add P(F)P(A|F).  Or start with P(A), and go to P(A)P(F|A)
+
+`Perfect_Exp1_Key_output.txt`
+File contains what we would have obtained if experiment 1 had gone perfectly.  
+NOTE: this did not consider inertial.  --  maybe use this experiment to increase the
+number of inertial examples.
+
+The rest of the files are (slightly) modified versions of the NIPS files.  (check dates
+for if i've done anything to it).  
+
+There are two main problems with the experiments (started checking Experiment 1, Key):
+1) Incorrect detection (there shouldn't have been repeated cases)
+2) Where to break examples.  Each time is an example of the status.  If it stayed, it's
+an inertial example.  If it changed, it's a causal action example.  So...  How far back to
+consider actions for an "example".  Fixed number of frames?  Fixed number of action changes
+(rows Mingtao gave me)?  Go back to the last change?  Find "large breaks" by clustering?
+
+Experiments would have been better with clear breaks between what we were considering an
+example.  
+
+Question: Examples get double counted--some get counted as contributing to an action.  But
+some are inertial examples also.  Is that a bad thing?  
