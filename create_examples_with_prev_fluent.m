@@ -1,5 +1,6 @@
-function [ new_dat ] = add_inertial2( dat, frameLag, actionLag, intersectBool )
-%ADD_INERTIAL appends the previous fluent value to each example
+function [ new_dat ] = create_examples_with_prev_fluent( dat, frameLag, actionLag, intersectBool )
+% CREATE_EXAMPLES_WITH_PREV_FLUENT appends the previous fluent value to each 
+% line and creates examples for use in pursuit
 %
 %   Input: 
 %       dat = matrix with examples as rows, frame in first column, 
@@ -7,18 +8,16 @@ function [ new_dat ] = add_inertial2( dat, frameLag, actionLag, intersectBool )
 %       frameLag = number of frames within which to consider an example
 %       actionLag = number of action change points within which to consider
 %                   an example
+%       intersectBool = boolean for whether to take intersection or union
+%                   of frameLag and actionLag.  
+%       NOTE: if just want one of frameLag or actionLag, enter 0 for the
+%       other
 %
 %   Output:
-%       dat = original dat with the previous fluent value tacked on as a
-%               last column.  this matrix has one less row than original.
-%               ie: dat col 1 has current fluent value, last col has
-%               previous.
-%
-%   2014-07-06 note: output and description seem to be outdated.  it also seems to collect
-%   the examples according to the actionLag and frameLag.  also, if want
-%   want just action or frame, enter 0 for the other one.  looks like this
-%   can be used to create DataFrames to feed into R for testing conditional
-%   independence.
+%       dat = a new version of the input dat that has the previous fluent
+%                   value tacked on as a last column and has merged rows to
+%                   create examples (collected according to the actionLag 
+%                   and frameLag. 
 
 
 % dat = [1 0 1; 3 1 0; 4 0 1; 10 0 0 ]
@@ -34,7 +33,6 @@ if ~issorted(dat(:,1))
     dat = sortrows(dat,1);
 %     warning('dat is not sorted by times');
 end
-
 
 
 if all(dat(:,1) < 2)

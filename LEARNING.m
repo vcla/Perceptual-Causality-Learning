@@ -106,7 +106,7 @@ for frameLag = (secondsLags * 2.3);
         end
 
         % add previous fluent value to the end of dat, remove frame information
-        dat = add_inertial2(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
+        dat = create_examples_with_prev_fluent(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
 
         accumulate_output = pursuit(dat,false,false,false, true,(2:12)',44, [2:3]); 
         accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -240,7 +240,7 @@ for actionLag = 1:6
         end
 
         % add previous fluent value to the end of dat, remove frame information
-        dat = add_inertial2(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
+        dat = create_examples_with_prev_fluent(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
 
         accumulate_output = pursuit(dat,false,false,false,true,(2:12)',44, [2:3]);  
         accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -374,7 +374,7 @@ secondsLag = [15 45];
             end
 
             % add previous fluent value to the end of dat, remove frame information
-            dat = add_inertial2(dat,frameLag, actionLag, true); % true for intersection of frames
+            dat = create_examples_with_prev_fluent(dat,frameLag, actionLag, true); % true for intersection of frames
 
             accumulate_output = pursuit(dat,false,false,false,true,(2:12)',44,[2:3]);  
             accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -486,7 +486,7 @@ for frameLag = [35 103]
             end
 
             % add previous fluent value to the end of dat, remove frame information
-            dat = add_inertial2(dat,frameLag, actionLag, false); % false for union of frames
+            dat = create_examples_with_prev_fluent(dat,frameLag, actionLag, false); % false for union of frames
 
             accumulate_output = pursuit(dat,false,false,false,true,(2:12)',44,[2:3]);  
             accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -581,7 +581,7 @@ casetext = 'Door';
 dat = remove_cols(dat, [3, 4, 5]);
 
 % add previous fluent value to the end of dat, remove frame information
-dat = add_inertial2(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
+dat = create_examples_with_prev_fluent(dat,frameLag, actionLag); % 0 frameLag, 1 actionLag
 perm_dat = dat;
 
 for nExamples = 5:5:30
@@ -653,7 +653,7 @@ pause;
 % % remove the columns 1(frame), 2(door_status), 3(monitor), 5(agent)
 % dat = remove_cols(dat, [2, 3, 5]);
 % dat = [dat ((dat(:,2)==1) & dat(:,10)) ((dat(:,2)==0) & dat(:,10))]; %inertial_index = 15; % should 15 be in deps too?
-% dat = add_inertial2(dat,frameLag, actionLag,true); % using intersection
+% dat = create_examples_with_prev_fluent(dat,frameLag, actionLag,true); % using intersection
 % dat = dat_by_fluent_change(dat,'10');
 % calc_info(dat);
 % 
@@ -697,19 +697,19 @@ for data_used = [LOCK]%, WITHOUTLOCK]
         dat1 = csvread('data/Exp1_output_data_key.txt', 1,0);  % key lock
         dat1 = prepare_exp1_dat(dat1);
         dat1 = remove_cols(dat1, [3]);
-        dat1 = add_inertial2(dat1,frameLag, actionLag,false); % true for using intersection
+        dat1 = create_examples_with_prev_fluent(dat1,frameLag, actionLag,false); % true for using intersection
 
 
         dat2 = csvread('data/Exp1_output_data3.txt',1,0); % pass code lock
         dat2 = prepare_exp1_dat(dat2);
         dat2 = remove_cols(dat2, [3]);
-        dat2 = add_inertial2(dat2,frameLag, actionLag,false); % true for using intersection
+        dat2 = create_examples_with_prev_fluent(dat2,frameLag, actionLag,false); % true for using intersection
 
         if data_used == WITHOUTLOCK
             dat3 = csvread('data/Exp1_output_data2.txt',1,0); %door no lock
             dat3 = prepare_exp1_dat(dat3);
             dat3 = remove_cols(dat3, [3]);
-            dat3 = add_inertial2(dat3,frameLag, actionLag,false); % true for using intersection
+            dat3 = create_examples_with_prev_fluent(dat3,frameLag, actionLag,false); % true for using intersection
 
             dat = [dat1; dat2; dat3];
             title_text = 'Without lock';
@@ -819,7 +819,7 @@ for frameLag = (0):(5*2.3):(300*2.3)
 %for frameLag = 50:50:500
     for actionLag = 1:8
         dat = perm_dat;
-        dat = add_inertial2(dat, frameLag, actionLag, false);
+        dat = create_examples_with_prev_fluent(dat, frameLag, actionLag, false);
         inertial_index = size(dat,2);
         accumulate_output = pursuit(dat,false,false,false,true,[],48,[3]);  % can get perfect by only looking at 3
         accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -886,7 +886,7 @@ for frameLag = (0):(5*2.3):(300*2.3)
 %for frameLag = 50:50:500
     for actionLag = 1:8
         dat = perm_dat;
-        dat = add_inertial2(dat, frameLag, actionLag, true);
+        dat = create_examples_with_prev_fluent(dat, frameLag, actionLag, true);
         inertial_index = size(dat,2);
         accumulate_output = pursuit(dat,false,false,false,true,[],48,3);  
         accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -940,7 +940,7 @@ disp('%%%%%%%% CHANGE BELOW: GREY THE CELL WITH CORRECT DETECTION, DELETE CHI SQ
 frameLag = 149.5; %57.5
 actionLag = 1; %5
 dat = perm_dat;
-dat = add_inertial2(dat, frameLag, actionLag, false);
+dat = create_examples_with_prev_fluent(dat, frameLag, actionLag, false);
 inertial_index = size(dat,2);
 accumulate_output = pursuit(dat,false,false,false,true,[],48,[3]);  
 accumulate_output = [testcase*ones(1,size(accumulate_output,2)); accumulate_output];
@@ -1017,7 +1017,7 @@ frameLag = 150;
 
 % remove unnecessary fluents
 % add previous fluent value to the end of dat, remove frame information
-perm_dat = add_inertial2(dat,frameLag, actionLag,true); % using intersection
+perm_dat = create_examples_with_prev_fluent(dat,frameLag, actionLag,true); % using intersection
 
 % create interactions for confusions
 dat = perm_dat;

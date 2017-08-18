@@ -38,7 +38,7 @@ for testcase = [DOOR MONITOR LIGHT]
 
     % add previous fluent value to the end of dat, remove frame
     % information
-    dat = add_inertial2(dat,frameLag, actionLag,true); % using intersection
+    dat = create_examples_with_prev_fluent(dat,frameLag, actionLag,true); % using intersection
     
     if testcase == LIGHT
         accumulate_output = pursuit(dat,true,false,false,true,[],40,[2:3],1);  
