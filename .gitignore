@@ -1,0 +1,10 @@
+.DS_Store
+preGitApproaches/
+images/
+data/
+ObsoleteCode/
+LearningScripts/
+SkeletonViewer/
+*.sw?
+*.m~
+*.asv

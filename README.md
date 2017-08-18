@@ -11,4 +11,4 @@ Source data - `data/`.
 Workflow
 ========
 
-Output for the paper is produced by running the script `LEARNING.m`.  Requires `data/Exp1_output_data2.txt`, `data/Exp1_output_data_key.txt`, `data/Exp1_output_data3.txt`, and `data/Exp2_output_data.txt`.
+Output for the paper is produced by running the script `LEARNING.m`.  Requires the following detections (poutput by Mingtao Pei): `data/Exp1_output_data2.txt`, `data/Exp1_output_data_key.txt`, `data/Exp1_output_data3.txt`, and `data/Exp2_output_data.txt`.
