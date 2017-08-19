@@ -16,4 +16,4 @@ Source data consists of detections made in 4 scenes--3 different kinds of doorwa
 Workflow
 --------
 
-Output for the paper is produced by running the script `LEARNING.m`.  It requires the detections in `data/`.
+Output for the paper is produced by running the script `LEARNING.m`.  It requires the detections above in `data/`.
